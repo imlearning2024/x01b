@@ -1,0 +1,27 @@
+services:
+  client:
+    build: ./client
+    container_name: client
+    ports:
+      - "5173:80"   # nginx serving react
+    depends_on:
+      - server
+      - pserver
+
+  server:
+    build: ./server
+    container_name: server
+    ports:
+      - "8000:8000"
+    volumes:
+      - ./server:/app
+    depends_on:
+      - pserver
+
+  pserver:
+    build: ./pserver
+    container_name: pserver
+    ports:
+      - "3000:3000"
+    volumes:
+      - ./pserver:/app
